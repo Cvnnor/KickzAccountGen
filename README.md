@@ -6,6 +6,11 @@ Kickz Account Generator by Cvnnor
 - Catchall
 - Single Rotating Proxy
 
+### User Info:
+- If you wish to use random names put `random` as first name and last name. Otherwise fill as normal.
+- Catchall should be stored as `@CATCHALL.COM`
+- Only residential proxies will work, just use one single rotating proxy in the format shown in the file.
+
 ### Guide:
 - Download all files and store in a folder.
 - Install Python if not already installed, PIP should be installed by default. If there are any issues try referring [Here](https://stackoverflow.com/a/69592264)
