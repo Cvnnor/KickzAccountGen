@@ -16,3 +16,6 @@ Kickz Account Generator by Cvnnor
 - Open userInfo.json and fill in all fields as per you require.
 - Run the `runme.bat` file.
 
+## Screenshots:
+![](https://raw.githubusercontent.com/Cvnnor/KickzAccountGen/504152ad794d5310eea25df2a61179ffbed3449e/Screenshots/1.png?token=ADM4YMBM6UXZRWXPTBX77YDBYSEI6)
+![](https://raw.githubusercontent.com/Cvnnor/KickzAccountGen/504152ad794d5310eea25df2a61179ffbed3449e/Screenshots/2.png?token=ADM4YMDVOJDWDYNF66ZREFTBYSEJW)
