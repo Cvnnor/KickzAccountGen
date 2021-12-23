@@ -61,10 +61,22 @@ def registerAccount(scraper, csrfToken):
         ('ajax', 'true'),
     )
 
+    #For random name usage:
+    if userInfo['firstName'] == "random":
+        firstName = fake.unique.first_name()
+    else:
+        firstName = userInfo['firstName']
+
+    if userInfo['LastName'] == "random":
+        lastName = fake.unique.last_name()
+    else:
+        lastName = userInfo['LastName']
+
+
     data = {
     'dwfrm_profile_customer_salutation': 'mr',
-    'dwfrm_profile_customer_firstname': str(userInfo['firstName']),
-    'dwfrm_profile_customer_lastname': str(userInfo['LastName']),
+    'dwfrm_profile_customer_firstname': str(firstName),
+    'dwfrm_profile_customer_lastname': str(lastName),
     'dwfrm_profile_customer_phone': '',
     'dwfrm_profile_customer_email': str(userEmail),
     'dwfrm_profile_customer_emailconfirm': str(userEmail),
@@ -77,15 +89,18 @@ def registerAccount(scraper, csrfToken):
     print(timeLogging()+"Got cookies, generating account..")
     response = scraper.post('https://www.kickz.com/on/demandware.store/Sites-Kickz-DE-AT-INT-Site/en/Account-SubmitRegistration',headers=headers, params=params, data=data, proxies=proxies)
     # print(response.content, response.status_code) #Print page
-    pageResult = json.loads(response.content)
-    if pageResult['validForm'] == True and response.status_code == 200:
-        print(Fore.GREEN+timeLogging()+"Successfully generated account. Saving to file.."+Fore.RESET)
-        with open('accounts.txt', 'a') as outfile:
-            outfile.write(str(userEmail)+":"+str(userInfo['password'])+"\n")
-        totalAccounts += 1
+    if  response.status_code == 200:
+        pageResult = json.loads(response.content)
+        if pageResult['validForm'] == True:
+            print(Fore.GREEN+timeLogging()+"Successfully generated account. Saving to file.."+Fore.RESET)
+            with open('accounts.txt', 'a') as outfile:
+                outfile.write(str(userEmail)+":"+str(userInfo['password'])+"\n")
+            totalAccounts += 1
+        else:
+            print(Fore.RED+timeLogging()+"Error submitting account: "+str(pageResult)+Fore.RESET)
+            totalFailedAccounts += 1
     else:
-        print(Fore.RED+timeLogging()+"Error submitting account: "+str(pageResult)+Fore.RESET)
-        totalFailedAccounts += 1
+        print(Fore.RED +timeLogging()+"Error getting cookies, retrying.. [Proxy Banned]"+Fore.RESET)
 
 accountQty = input("How many accounts would you like to generate?: ")
 
@@ -102,16 +117,16 @@ for i in range(int(accountQty)):
         csrftoken = soup.find("div", {"id": "csrf-token-element"})
         try:
             csrftoken = csrftoken['data-token-value']
+            if len(csrftoken) < 1:
+                print(timeLogging()+"Error getting cookies retrying..")
+            else:
+                # print(csrftoken) #Print token
+                registerAccount(scraper, csrftoken)
         except:
             print(Fore.RED +timeLogging()+"Error getting cookies, retrying.. [Proxy Banned]"+Fore.RESET)
             totalFailedAccounts += 1
-        if len(csrftoken) < 1:
-            print(timeLogging()+"Error getting cookies retrying..")
-        else:
-            # print(csrftoken) #Print token
-            registerAccount(scraper, csrftoken)
-    except:
-        print(Fore.RED+timeLogging()+"Error"+Fore.RESET)
+    except Exception as e:
+        print(Fore.RED+timeLogging()+"Error - "+str(e)+Fore.RESET)
         totalFailedAccounts += 1
 
 print(Style.BRIGHT+Fore.GREEN+timeLogging()+"Succesfully Generated "+str(totalAccounts)+" Accounts."+Style.RESET_ALL)
