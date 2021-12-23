@@ -1,0 +1,2 @@
+# KickzAccountGen
+Kickz Account Generator
