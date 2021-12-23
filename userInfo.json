@@ -1,0 +1,13 @@
+{
+    "userInfo":[
+        {
+        "proxy":"http://USER:PASS@PROXY:PORT/",
+        "catchall":"@CATCHALL",
+        "password":"",
+        "firstName":"",
+        "LastName":""
+        }
+    ]
+}
+
+

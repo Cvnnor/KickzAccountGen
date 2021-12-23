@@ -1,0 +1,6 @@
+beautifulsoup4==4.10.0
+cloudscraper==1.2.58
+colorama==0.4.4
+fake_useragent==0.1.11
+Faker==9.9.0
+requests==2.25.1
